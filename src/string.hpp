@@ -15,7 +15,7 @@ public:
     String(const String &s);
 
     // construct this string by moving from string s
-    String(String &&s);
+    // String(String &&s);
 
     // swap this string with s
     void swap(String &s);
@@ -24,7 +24,7 @@ public:
     String &operator=(const String &s);
 
     // assign to this string by moving
-    String &operator=(String &&s);
+    // String &operator=(String &&s);
 
     // check if we can index at position i in this string
     bool in_bounds(int index) const;
@@ -65,7 +65,7 @@ public:
     void read(std::istream &in);
 
     // destructor for this string
-    ~String();
+    // ~String();
 private:
     list::Node* head;
 
