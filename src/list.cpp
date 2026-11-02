@@ -21,6 +21,7 @@ Node* list::from_string(const char* s) {
 		}
 	}
 }
+
 void list::free(Node* head) {
 	Node* current = head;
 	Node* nextNode = nullptr;
@@ -31,6 +32,7 @@ void list::free(Node* head) {
 		current = nextNode;
 	}
 }
+
 void list::print(std::ostream& out, Node* head) {
 	Node* current = head;
 	while (current != nullptr) {
@@ -38,6 +40,7 @@ void list::print(std::ostream& out, Node* head) {
 		current = current->next;
 	}
 }
+
 Node* list::copy(Node* head) {
 	if (head == nullptr) {
 		return nullptr;
@@ -53,10 +56,74 @@ Node* list::copy(Node* head) {
 	}
 }
 
-int list::compare(Nodes* lhs, Node* rhs, int n);
-int list::compare(Node* lhs, Node* rhs, int n);
-int list::length(Node* head);
-Node* list::reverse(Node* head);
+int list::compare(Nodes* lhs, Node* rhs) {
+	Node* l_current = lhs;
+	Node* r_current = rhs;
+
+	while (l_current != nullptr && r_current != nullptr) {
+		if (l_current->data != r_current->data) {
+			return l_current->data - r_current->data;
+		}
+		l_current = l_current->next;
+		r_current = r_current->next;
+	}
+
+	if (l_current == nullptr && r_current == nullptr) {
+		return 0;
+	}
+	if (l_current = nullptr && r_current != nullptr) {
+		return -1;
+	}
+	return 1;
+}
+int list::compare(Node* lhs, Node* rhs, int n) {
+	if (n <= 0) {
+		return 0;
+	}
+	Node* l_current = lhs;
+	Node* r_current = rhs;
+
+	for (i = 0; i < n; ++i) {
+		if (l_current == nullptr && r_current == nullptr) {
+			return 0;
+		}
+		if (l_current == nullptr && r_current != nullptr) {
+			return -1;
+		}
+		if (l_current != nullptr && r_current == nullptr) {
+			return 1;
+		}
+		if (l_current->data != r_current->data) {
+			return l_current->data - r_current->data;
+		}
+		l_current = l_current->next;
+		r_current = r_current->next;
+	}
+	return 0;
+}
+int list::length(Node* head) {
+	Node* current = head;
+	int len = 0;
+	while (current->data != nullptr) {
+		++len;
+		current = current->next;
+	}
+	return len;
+}
+Node* list::reverse(Node* head) {
+	if (head == nullptr) {
+		return nullptr;
+	}
+
+	Node* current = head;
+	Node* rev = nullptr;
+
+	while (current != nullptr) {
+		rev = new Node{current->data, rev};
+		current = current->next;
+	}
+	return rev;
+}
 
 Node* list::append(Node* lhs, Node* rhs);
 int list::index(Node* head, Node* node);
