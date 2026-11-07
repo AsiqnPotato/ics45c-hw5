@@ -80,8 +80,8 @@ TEST(StringClass, Reverse) {
 	s.print(out_orig);
 	rev.print(out_rev);
 
-	EXPECT_STREQ(out_orig.str().cstr(), "hello");
-	EXPECT_STREQ(out_rev.str().cstr(), "olleh");
+	EXPECT_STREQ(out_orig.str().c_str(), "hello");
+	EXPECT_STREQ(out_rev.str().c_str(), "olleh");
 
 	EXPECT_EQ(String().reverse(), String());
 	EXPECT_EQ(String("a").reverse(), String("a"));

@@ -9,7 +9,9 @@ String::String(const char *s) {
 String::String(const String &s) {
 	head = list::copy(s.head);
 }
-// String::String(String &&s);
+String::String(String &&s) : head(s.head) {
+	s.head = nullptr;
+}
 void String::swap(String &s) {
 	list::Node *temp = head;
 	head = s.head;
@@ -87,7 +89,9 @@ String::String(list::Node* node) {
 	head = node;
 }
 
-// ~String::String();
+String::~String() {
+	list::free(head);
+}
 
 std::ostream &operator<<(std::ostream &out, const String &s) {
 	s.print(out);
