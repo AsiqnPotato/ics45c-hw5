@@ -53,3 +53,62 @@ TEST(StringClass, Assignment) {
     EXPECT_EQ(s, String());
     EXPECT_EQ(s.size(), 0);
 }
+
+TEST(StringClass, Indexing) {
+	String s("carols");
+	EXPECT_TRUE(s.in_bounds(0));
+	EXPECT_TRUE(s.in_bounds(5));
+	EXPECT_FALSE(s.in_bounds(-1));
+	EXPECT_FALSE(s.in_bounds(6));
+
+	EXPECT_EQ(s[0], 'c');
+	EXPECT_EQ(s[5], 's');
+
+	EXPECT_EQ(s.indexOf('c'), 0);
+	EXPECT_EQ(s.indexOf('r'), 2);
+	EXPECT_EQ(s.indexOf('f'), -1);
+
+	String empty;
+	EXPECT_FALSE(empty.in_bounds(0));
+}
+
+TEST(StringClass, Reverse) {
+	String s("hello");
+	String rev = s.reverse();
+
+	stringstream out_orig, out_rev;
+	s.print(out_orig);
+	rev.print(out_rev);
+
+	EXPECT_STREQ(out_orig.str().cstr(), "hello");
+	EXPECT_STREQ(out_rev.str().cstr(), "olleh");
+
+	EXPECT_EQ(String().reverse(), String());
+	EXPECT_EQ(String("a").reverse(), String("a"));
+}
+
+TEST(StringClass, Concat) {
+	String s1("Hello");
+	String s2(" World");
+	String s3 = s1 + s2;
+
+	EXPECT_EQ(s3, String("Hello World"));
+	EXPECT_EQ(s1, String("Hello"));
+
+	s1 += s2;
+	EXPECT_EQ(s1, String("Hello World"));
+	String empty;
+	EXPECT_EQ(s1 + empty, s1);
+	EXPECT_EQ(empty + s1, s1);
+}
+
+TEST(StringClass, StreamInput) {
+	String s;
+	stringstream in("apple banana");
+    
+	in >> s;
+	EXPECT_EQ(s, String("apple"));
+    
+	in >> s;
+	EXPECT_EQ(s, String("banana"));
+}
