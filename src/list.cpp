@@ -21,6 +21,7 @@ Node* from_string(const char* s) {
 			tail = newNode;
 		}
 	}
+	return head;
 }
 
 void free(Node* head) {

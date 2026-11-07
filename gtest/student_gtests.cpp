@@ -87,3 +87,156 @@ TEST(ListTests, Copy) {
 	list::free(original);
 	list::free(copy_head);
 }
+
+TEST(ListTests, Compare) {
+	Node* one = list::from_string("abc");
+	Node* two = list::from_string("abc");
+	Node* three = list::from_string("abd");
+	Node* four = list::from_string("ab");
+
+	EXPECT_EQ(list::compare(one, two), 0);
+	EXPECT_LT(list::compare(one, three), 0);
+	EXPECT_GT(list::compare(one, four), 0);
+	EXPECT_LT(list::compare(four, one), 0);
+	EXPECT_GT(list::compare(three, one), 0);
+
+	EXPECT_EQ(list::compare(nullptr, nullptr), 0);
+	EXPECT_LT(list::compare(nullptr, one), 0);
+	EXPECT_GT(list::compare(one, nullptr), 0);
+
+	list::free(one);
+	list::free(two);
+	list::free(three);
+	list::free(four);
+}
+
+TEST(ListTests, CompareN) {
+	Node* one = list::from_string("apple");
+	Node* two = list::from_string("application");
+
+	EXPECT_EQ(list::compare(one, two, 0), 0);
+	EXPECT_EQ(list::compare(one, two, 3), 0);
+	EXPECT_LT(list::compare(one, two, 5), 0);
+
+	list::free(one);
+	list::free(two);
+}
+
+TEST(ListTests, Reverse) {
+	EXPECT_EQ(list::reverse(nullptr), nullptr);
+
+	Node* one = list::from_string("a");
+	Node* rev_one = list::reverse(one);
+
+	ASSERT_NE(rev_one, nullptr);
+	EXPECT_EQ(rev_one->data, 'a');
+	EXPECT_EQ(rev_one->next, nullptr);
+	list::free(one);
+	list::free(rev_one);
+
+	Node* multi = list::from_string("abc");
+	Node* rev_multi = list::reverse(multi);
+
+	ASSERT_NE(rev_multi, nullptr);
+	EXPECT_EQ(rev_multi->data, 'c');
+	ASSERT_NE(rev_multi->next, nullptr);
+	EXPECT_EQ(rev_multi->next->data, 'b');
+	list::free(multi);
+	list::free(rev_multi);
+}
+
+TEST(ListTests, Append) {
+	Node* one = list::from_string("hi ");
+	Node* two = list::from_string("there");
+
+	Node* combined = list::append(one, two);
+	ASSERT_NE(combined, nullptr);
+
+	const char* expected = "hi there";
+	Node* current = combined;
+	for (int i = 0; expected[i] != '\0'; ++i) {
+		ASSERT_NE(current, nullptr);
+		EXPECT_EQ(current->data, expected[i]);
+		current = current->next;
+	}
+	EXPECT_EQ(current, nullptr);
+	list::free(combined);
+}
+
+TEST(ListTests, Index) {
+	Node* head = list::from_string("abc");
+	Node* two = head->next;
+	Node* three = head->next->next;
+
+	EXPECT_EQ(list::index(head, head), 0);
+	EXPECT_EQ(list::index(head, two), 1);
+	EXPECT_EQ(list::index(head, three), 2);
+
+	Node* outside = list::from_string("z");
+	EXPECT_EQ(list::index(head, outside), -1);
+
+	list::free(head);
+	list::free(outside);
+}
+
+TEST(ListTests, Find) {
+	Node* head = list::from_string("banana");
+
+	Node* found = list::find_char(head, 'n');
+	ASSERT_NE(found, nullptr);
+	EXPECT_EQ(found->data, 'n');
+	EXPECT_EQ(list::index(head, found), 2);
+	EXPECT_EQ(list::find_char(head, 'z'), nullptr);
+	EXPECT_EQ(list::find_char(nullptr, 'a'), nullptr);
+
+	list::free(head);
+
+	Node* haystack = list::from_string("alakazam");
+	Node* needle = list::from_string("alak");
+	Node* empty = nullptr;
+
+	Node* result = find_list(haystack, needle);
+	ASSERT_NE(result, nullptr);
+	EXPECT_EQ(list::index(haystack, result), 0);
+	EXPECT_EQ(list::find_list(haystack, empty), haystack);
+	EXPECT_EQ(list::find_list(nullptr, needle), nullptr);
+
+	list::free(haystack);
+	list::free(needle);
+
+	Node* hay2 = list::from_string("kaxabra");
+	Node* needle2 = list::from_string("kad");
+	Node* result2 = list::find_list(hay2, needle2);
+	ASSERT_NE(result2, nullptr);
+	EXPECT_EQ(list::index(hay2, result2), 3);
+
+	list::free(hay2);
+	list::free(needle2);
+}
+
+TEST(ListTests, Nth) {
+	Node* head = list::from_string("xyz");
+
+	EXPECT_EQ(list::nth(head, 0)->data, 'x');
+	EXPECT_EQ(list::nth(head, 1)->data, 'y');
+	EXPECT_EQ(list::nth(head, 2)->data, 'z');
+	EXPECT_EQ(list::nth(head, 3), nullptr);
+
+	list::free(head);
+}
+
+TEST(ListTests, Last) {
+	EXPECT_EQ(list::last(nullptr), nullptr);
+
+	Node* one = list::from_string("a");
+	EXPECT_EQ(list::last(one), one);
+
+	Node* multi = list::from_string("hello");
+	Node* last_node = list::last(multi);
+	ASSERT_NE(last_node, nullptr);
+	EXPECT_EQ(last_node->data, 'o');
+	EXPECT_EQ(last_node->next, nullptr);
+
+	list::free(one);
+	list::free(multi);
+}
