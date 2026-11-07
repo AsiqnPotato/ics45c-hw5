@@ -10,7 +10,7 @@ String::String(const String &s) {
 	head = list::copy(s.head);
 }
 // String::String(String &&s);
-void String:swap(String &s) {
+void String::swap(String &s) {
 	list::Node *temp = head;
 	head = s.head;
 	s.head = temp;
@@ -29,7 +29,7 @@ bool String::in_bounds(int index) const {
 	return (index >= 0 && index <= list::length(head));
 }
 char String::operator[](int index) const {
-	if head != nullptr{
+	if (head != nullptr) {
 		return list::nth(head, index)->data;
 	}
 }
@@ -37,7 +37,7 @@ int String::size() const {
 	return list::length(head);
 }
 String String::reverse() const {
-	return list::reverse(head);
+	return String(list::reverse(head));
 }
 int String::indexOf(char c) const {
 	return list::find_char(head, c);
@@ -53,14 +53,15 @@ std::strong_ordering String::operator<=>(const String &s) const {
 	return list::compare(head, s.head) <=> 0;
 }
 String String::operator+(const String &s) const {
-	return String(list::append(head, s.head);
+	return String(list::append(head, s.head));
 }
 String &String::operator+=(const String &s) {
-	if (head == nullptr) {
+	if (list::Node* head == nullptr) {
 		return *this;
 	}
 	list::Node *tail = list::last(head);
 	tail->next = list::copy(s.head);
+	return *this;
 }
 
 void String::print(std::ostream&out) const {
@@ -69,7 +70,7 @@ void String::print(std::ostream&out) const {
 void String::read(std::istream &in) {
 	char buf[1024];
 	if (in >> buf) {
-		list::free(head);
+		list::free(list::Node* head);
 		head = list::from_string(buf);
 	}
 }

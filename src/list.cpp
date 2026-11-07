@@ -12,7 +12,7 @@ Node* from_string(const char* s) {
 	Node* tail = nullptr;
 
 	for(; *s != '\0'; ++s) {
-		Node* newnode = new Node{*s, nullptr};
+		Node* newNode = new Node{*s, nullptr};
 		if (head == nullptr) {
 			head = newNode;
 			tail = newNode;
@@ -46,7 +46,7 @@ Node* copy(Node* head) {
 	if (head == nullptr) {
 		return nullptr;
 	}
-	Node* newhead = new Node{head->data, nullptr}
+	Node* newhead = new Node{head->data, nullptr};
 	Node* newtail = newhead;
 
 	Node* current = head->next;
@@ -55,9 +55,10 @@ Node* copy(Node* head) {
 		newtail = newtail->next;
 		current = current->next;
 	}
+	return newhead;
 }
 
-int compare(Nodes* lhs, Node* rhs) {
+int compare(Node* lhs, Node* rhs) {
 	Node* l_current = lhs;
 	Node* r_current = rhs;
 
@@ -107,7 +108,7 @@ int compare(Node* lhs, Node* rhs, int n) {
 int length(Node* head) {
 	Node* current = head;
 	int len = 0;
-	while (current->data != nullptr) {
+	while (current != nullptr) {
 		++len;
 		current = current->next;
 	}
@@ -137,13 +138,13 @@ Node* append(Node* lhs, Node* rhs) {
 	
 	Node* current = lhs;
 	while (current != nullptr) {
-		Node* new_node = node{current->data, nullptr};
+		Node* new_node = Node{current->data, nullptr};
 		if (newhead == nullptr) {
 			newhead = new_node;
 			newtail = new_node;
 		} else {
-			newtail->next = newnode;
-			newtail = newnode;
+			newtail->next = new_node;
+			newtail = new_node;
 		}
 		current = current->next;
 	}
@@ -158,7 +159,7 @@ Node* append(Node* lhs, Node* rhs) {
 			newtail->next = new_node;
 			newtail = new_node;
 		}
-		return newhead;
+	return newhead;
 }
 int index(Node* head, Node* node) {
 	Node* current = head;
@@ -176,7 +177,7 @@ int index(Node* head, Node* node) {
 Node* find_char(Node* head, char c) {
 	Node* current = head;
 	while (current != nullptr) {
-		if (current->data == c) (
+		if (current->data == c) {
 			return current;
 		}
 		current = current->next;
