@@ -83,6 +83,10 @@ void String::read(std::istream &in) {
 	}
 }
 
+String::String(list::Node* node) {
+	head = node;
+}
+
 // ~String::String();
 
 std::ostream &operator<<(std::ostream &out, const String &s) {
