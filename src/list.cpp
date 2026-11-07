@@ -73,7 +73,7 @@ int compare(Node* lhs, Node* rhs) {
 	if (l_current == nullptr && r_current == nullptr) {
 		return 0;
 	}
-	if (l_current = nullptr && r_current != nullptr) {
+	if (l_current == nullptr && r_current != nullptr) {
 		return -1;
 	}
 	return 1;
@@ -138,7 +138,7 @@ Node* append(Node* lhs, Node* rhs) {
 	
 	Node* current = lhs;
 	while (current != nullptr) {
-		Node* new_node = Node{current->data, nullptr};
+		Node* new_node = new Node{current->data, nullptr};
 		if (newhead == nullptr) {
 			newhead = new_node;
 			newtail = new_node;
@@ -151,7 +151,7 @@ Node* append(Node* lhs, Node* rhs) {
 
 	current = rhs;
 	while (current != nullptr) {
-		new_node = node{current->data, nullptr};
+		Node* new_node = new Node{current->data, nullptr};
 		if (newhead == nullptr) {
 			newhead = new_node;
 			newtail = new_node;
@@ -159,8 +159,10 @@ Node* append(Node* lhs, Node* rhs) {
 			newtail->next = new_node;
 			newtail = new_node;
 		}
+	}
 	return newhead;
 }
+
 int index(Node* head, Node* node) {
 	Node* current = head;
 	int idx = 0;

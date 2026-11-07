@@ -40,10 +40,18 @@ String String::reverse() const {
 	return String(list::reverse(head));
 }
 int String::indexOf(char c) const {
-	return list::find_char(head, c);
+	list::Node* found = list::find_char(head, c);
+	if (found == nullptr) {
+		return -1;
+	}
+	return list::index(head, found);
 }
 int String::indexOf(const String &s) const {
-	return list::find_list(head, s.head);
+	list::Node* found = list::find_list(head, s.head);
+	if (found == nullptr) {
+		return -1;
+	}
+	return list::index(head, found);
 }
 
 bool String::operator==(const String &s) const {
@@ -56,7 +64,7 @@ String String::operator+(const String &s) const {
 	return String(list::append(head, s.head));
 }
 String &String::operator+=(const String &s) {
-	if (list::Node* head == nullptr) {
+	if (head == nullptr) {
 		return *this;
 	}
 	list::Node *tail = list::last(head);
@@ -70,7 +78,7 @@ void String::print(std::ostream&out) const {
 void String::read(std::istream &in) {
 	char buf[1024];
 	if (in >> buf) {
-		list::free(list::Node* head);
+		list::free(head);
 		head = list::from_string(buf);
 	}
 }
@@ -81,7 +89,7 @@ std::ostream &operator<<(std::ostream &out, const String &s) {
 	s.print(out);
 	return out;
 }
-std::istream &operator>>(std::istream&in, String &s);
+std::istream &operator>>(std::istream&in, String &s) {
 	s.read(in);
 	return in;
 }
