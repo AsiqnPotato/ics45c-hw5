@@ -115,6 +115,7 @@ int length(Node* head) {
 	}
 	return len;
 }
+
 Node* reverse(Node* head) {
 	if (head == nullptr) {
 		return nullptr;
@@ -123,7 +124,7 @@ Node* reverse(Node* head) {
 	Node* rev = nullptr;
 
 	while (current != nullptr) {
-		rev = new Node{current->data, nullptr};
+		rev = new Node{current->data, rev};
 		current = current->next;
 	}
 	return rev;

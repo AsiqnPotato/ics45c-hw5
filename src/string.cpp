@@ -28,12 +28,13 @@ String &String::operator=(const String &s) {
 // String &String::operator=(String &&s);
 
 bool String::in_bounds(int index) const {
-	return (index >= 0 && index <= list::length(head));
+	return (index >= 0 && index < list::length(head));
 }
 char String::operator[](int index) const {
 	if (head != nullptr) {
 		return list::nth(head, index)->data;
 	}
+	return '\0';
 }
 int String::size() const {
 	return list::length(head);
