@@ -25,7 +25,14 @@ String &String::operator=(const String &s) {
 	head = list::copy(s.head);
 	return *this;
 }
-// String &String::operator=(String &&s);
+String &String::operator=(String &&s) {
+	if (this != &s) {
+		list::free(head);
+		head = s.head;
+		s.head = nullptr;
+	}
+	return *this;
+}
 
 bool String::in_bounds(int index) const {
 	return (index >= 0 && index < list::length(head));

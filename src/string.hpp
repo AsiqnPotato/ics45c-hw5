@@ -24,7 +24,7 @@ public:
     String &operator=(const String &s);
 
     // assign to this string by moving
-    // String &operator=(String &&s);
+    String &operator=(String &&s);
 
     // check if we can index at position i in this string
     bool in_bounds(int index) const;

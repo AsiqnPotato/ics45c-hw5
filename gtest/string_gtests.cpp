@@ -124,3 +124,19 @@ TEST(StringClass, MoveConstruct) {
 	EXPECT_STREQ(out.str().c_str(), "hello");
 	EXPECT_EQ(s1.size(), 0);
 }
+
+TEST(StringClass, MoveAssign) {
+	String s1("hello");
+	String s2("world");
+
+	s2 = std::move(s1);
+
+	EXPECT_EQ(s2.size(), 5);
+	stringstream out;
+	s2.print(out);
+	EXPECT_STREQ(out.str().c_str(), "hello");
+	EXPECT_EQ(s1.size(), 0);
+
+	s2 = std::move(s2);
+	EXPECT_EQ(s2.size(), 5);
+}
