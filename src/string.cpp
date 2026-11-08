@@ -38,10 +38,11 @@ bool String::in_bounds(int index) const {
 	return (index >= 0 && index < list::length(head));
 }
 char String::operator[](int index) const {
-	if (head != nullptr) {
-		return list::nth(head, index)->data;
+	if (!in_bounds(index)) {
+		std::cout << "ERROR: Index out of Bounds" << std::endl;
+		return '\0';
 	}
-	return '\0';
+	return list::nth(head, index)->data;
 }
 int String::size() const {
 	return list::length(head);
