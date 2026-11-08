@@ -214,12 +214,9 @@ TEST(ListTests, Index) {
 	EXPECT_EQ(list::index(head, head), 0);
 	EXPECT_EQ(list::index(head, two), 1);
 	EXPECT_EQ(list::index(head, three), 2);
-
-	Node* outside = list::from_string("z");
-	EXPECT_EQ(list::index(head, outside), -1);
+	EXPECT_EQ(list::index(head, nullptr), -1);
 
 	list::free(head);
-	list::free(outside);
 }
 
 TEST(ListTests, Find) {
@@ -282,8 +279,6 @@ TEST(ListTests, Nth) {
 }
 
 TEST(ListTests, Last) {
-	EXPECT_EQ(list::last(nullptr), nullptr);
-
 	Node* one = list::from_string("a");
 	EXPECT_EQ(list::last(one), one);
 

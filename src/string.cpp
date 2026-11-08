@@ -76,6 +76,7 @@ String String::operator+(const String &s) const {
 }
 String &String::operator+=(const String &s) {
 	if (head == nullptr) {
+		head = list::copy(s.head);
 		return *this;
 	}
 	list::Node *tail = list::last(head);
