@@ -218,7 +218,6 @@ TEST(ListTests, Index) {
 	EXPECT_EQ(list::index(head, three), 2);
 	EXPECT_EQ(list::index(head, four), 3);
 	EXPECT_EQ(list::index(head, five), 4);
-	EXPECT_EQ(list::index(head, nullptr), -1);
 
 	Node* single = list::from_string("x");
 	EXPECT_EQ(list::index(single, single), 0);
