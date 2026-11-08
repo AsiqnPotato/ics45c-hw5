@@ -110,6 +110,19 @@ TEST(ListTests, Compare) {
 	list::free(four);
 }
 
+TEST(ListTests, CompareEdgeCases) {
+	Node* one = list::from_string("abc");
+	Node* two = list::from_string("abcdef");
+
+	EXPECT_LT(list::compare(one, two), 0);
+	EXPECT_GT(list::compare(two, one), 0);
+	EXPECT_EQ(list::compare(one, one, 5), 0);
+	EXPECT_EQ(list::compare(one, two, 3), 0);
+
+	list::free(one);
+	list::free(two);
+}
+
 TEST(ListTests, CompareN) {
 	Node* one = list::from_string("apple");
 	Node* two = list::from_string("application");
@@ -152,15 +165,45 @@ TEST(ListTests, Append) {
 	Node* combined = list::append(one, two);
 	ASSERT_NE(combined, nullptr);
 
-	const char* expected = "hi there";
 	Node* current = combined;
-	for (int i = 0; expected[i] != '\0'; ++i) {
+	Node* orig_curr = one;
+	while (orig_curr != nullptr) {
 		ASSERT_NE(current, nullptr);
-		EXPECT_EQ(current->data, expected[i]);
+		ASSERT_NE(current, orig_curr);
+		EXPECT_EQ(current->data, orig_curr->data);
 		current = current->next;
+		orig_curr = orig_curr->next;
+	}
+
+	orig_curr = two;
+	while (orig_curr != nullptr) {
+		ASSERT_NE(current, nullptr);
+		ASSERT_NE(current, orig_curr);
+		EXPECT_EQ(current->data, orig_curr->data);
+		current = current->next;
+		orig_curr = orig_curr->next;
 	}
 	EXPECT_EQ(current, nullptr);
+	
+	list::free(one);
+	list::free(two);
 	list::free(combined);
+
+	Node* test = list::from_string("test");
+	Node* res1 = list::append(nullptr, test);
+	ASSERT_NE(res1, nullptr);
+	EXPECT_EQ(res1->data, 't');
+
+	Node* res2 = list::append(test, nullptr);
+	ASSERT_NE(res2, nullptr);
+	EXPECT_EQ(res2->data, 't');
+
+	Node* res3 = list::append(nullptr, nullptr);
+	EXPECT_EQ(res3, nullptr);
+
+	list::free(test);
+	list::free(res1);
+	list::free(res2);
 }
 
 TEST(ListTests, Index) {
@@ -195,7 +238,7 @@ TEST(ListTests, Find) {
 	Node* needle = list::from_string("alak");
 	Node* empty = nullptr;
 
-	Node* result = find_list(haystack, needle);
+	Node* result = list::find_list(haystack, needle);
 	ASSERT_NE(result, nullptr);
 	EXPECT_EQ(list::index(haystack, result), 0);
 	EXPECT_EQ(list::find_list(haystack, empty), haystack);
@@ -205,13 +248,26 @@ TEST(ListTests, Find) {
 	list::free(needle);
 
 	Node* hay2 = list::from_string("kaxabra");
-	Node* needle2 = list::from_string("kad");
+	Node* needle2 = list::from_string("abra");
 	Node* result2 = list::find_list(hay2, needle2);
 	ASSERT_NE(result2, nullptr);
 	EXPECT_EQ(list::index(hay2, result2), 3);
 
 	list::free(hay2);
 	list::free(needle2);
+
+	Node* hay3 = list::from_string("abacaba");
+	Node* needle3 = list::from_string("aba");
+	Node* result3 = list::find_list(hay3, needle3);
+	ASSERT_NE(result3, nullptr);
+	EXPECT_EQ(list::index(hay3, result3), 0);
+
+	Node* needle_long = list::from_string("abacabae");
+	EXPECT_EQ(list::find_list(hay3, needle_long), nullptr);
+
+	list::free(hay3);
+	list::free(needle3);
+	list::free(needle_long);
 }
 
 TEST(ListTests, Nth) {

@@ -161,8 +161,9 @@ Node* append(Node* lhs, Node* rhs) {
 			newtail->next = new_node;
 			newtail = new_node;
 		}
+		current = current->next;
 	}
-	return newhead;
+	return newhead; 
 }
 
 int index(Node* head, Node* node) {
@@ -199,10 +200,23 @@ Node* find_list(Node* haystack, Node* needle) {
 
 	Node* current = haystack;
 	while (current != nullptr) {
-		if (current->data == needle->data) {
+		Node* h_curr = current;
+		Node* n_curr = needle;
+		bool match = true;
+		
+		while (n_curr != nullptr) {
+			if (h_curr == nullptr || h_curr->data != n_curr->data) {
+				match = false;
+				break;
+			}
+			h_curr = h_curr->next;
+			n_curr = n_curr->next;
+		}
+
+		if (match) {
 			return current;
 		}
-	current = current->next;
+		current = current->next;
 	}
 	return nullptr;
 }
