@@ -352,4 +352,14 @@ TEST(ListTests, FindListSpecific) {
 	list::free(haystack);
 	list::free(needle1);
 	list::free(needle2);
+
+	Node* hay2 = list::from_string("ababc");
+	Node* need2 = list::from_string("abc");
+
+	Node* result = list::find_list(hay2, need2);
+	ASSERT_NE(result, nullptr);
+	EXPECT_EQ(list::index(hay2, result), 2);
+
+	list::free(hay2);
+	list::free(need2);
 }
