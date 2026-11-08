@@ -207,16 +207,21 @@ TEST(ListTests, Append) {
 }
 
 TEST(ListTests, Index) {
-	Node* head = list::from_string("abc");
+	Node* head = list::from_string("abca");
 	Node* two = head->next;
 	Node* three = head->next->next;
+	Node* four = head->next->next->next;
 
 	EXPECT_EQ(list::index(head, head), 0);
 	EXPECT_EQ(list::index(head, two), 1);
 	EXPECT_EQ(list::index(head, three), 2);
-	EXPECT_EQ(list::index(head, nullptr), -1);
+	EXPECT_EQ(list::index(head, four), 3);
+
+	Node* single = list::from_string("x");
+	EXPECT_EQ(list::index(single, single), 0);
 
 	list::free(head);
+	list::free(single);
 }
 
 TEST(ListTests, Find) {
@@ -288,6 +293,12 @@ TEST(ListTests, Last) {
 	EXPECT_EQ(last_node->data, 'o');
 	EXPECT_EQ(last_node->next, nullptr);
 
+	Node* two = list::from_string("xy");
+	Node* last_two = list::last(two);
+	ASSERT_NE(last_two, nullptr);
+	EXPECT_EQ(last_two->data, 'y');
+
 	list::free(one);
 	list::free(multi);
+	list::free(two);
 }
