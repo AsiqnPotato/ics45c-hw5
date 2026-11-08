@@ -207,15 +207,18 @@ TEST(ListTests, Append) {
 }
 
 TEST(ListTests, Index) {
-	Node* head = list::from_string("abca");
+	Node* head = list::from_string("abcde");
 	Node* two = head->next;
 	Node* three = head->next->next;
 	Node* four = head->next->next->next;
+	Node* five = head->next->next->next->next;
 
 	EXPECT_EQ(list::index(head, head), 0);
 	EXPECT_EQ(list::index(head, two), 1);
 	EXPECT_EQ(list::index(head, three), 2);
 	EXPECT_EQ(list::index(head, four), 3);
+	EXPECT_EQ(list::index(head, five), 4);
+	EXPECT_EQ(list::index(head, nullptr), -1);
 
 	Node* single = list::from_string("x");
 	EXPECT_EQ(list::index(single, single), 0);
@@ -332,4 +335,22 @@ TEST(ListTests, FindListOverlapping) {
 	list::free(haystack);
 	list::free(needle);
 	list::free(long_needle);
+}
+
+TEST(ListTests, FindListSpecific) {
+	Node* haystack = list::from_string("mississippi");
+	Node* needle1 = list::from_string("iss");
+	Node* needle2 = list::from_string("sip");
+
+	Node* res1 = list::find_list(haystack, needle1);
+	ASSERT_NE(res1, nullptr);
+	EXPECT_EQ(list::index(haystack, res1), 1);
+
+	Node* res2 = list::find_list(haystack, needle2);
+	ASSERT_NE(res2, nullptr);
+	EXPECT_EQ(list::index(haystack, res2), 6);
+
+	list::free(haystack);
+	list::free(needle1);
+	list::free(needle2);
 }
