@@ -302,3 +302,34 @@ TEST(ListTests, Last) {
 	list::free(multi);
 	list::free(two);
 }
+
+TEST(ListTests, IndexRepeating) {
+	Node* head = list::from_string("aabaa");
+	Node* first = head;
+	Node* second = head->next;
+	Node* third = head->next->next->next;
+	Node* fourth = head->next->next->next->next;
+
+	EXPECT_EQ(list::index(head, first), 0);
+	EXPECT_EQ(list::index(head, second), 1);
+	EXPECT_EQ(list::index(head, third), 3);
+	EXPECT_EQ(list::index(head, fourth), 4);
+
+	list::free(head);
+}
+
+TEST(ListTests, FindListOverlapping) {
+	Node* haystack = list::from_string("aaaa");
+	Node* needle = list::from_string("aa");
+
+	Node* result = list::find_list(haystack, needle);
+	ASSERT_NE(result, nullptr);
+	EXPECT_EQ(list::index(haystack,result), 0);
+
+	Node* long_needle = list::from_string("aaaaa");
+	EXPECT_EQ(list::find_list(haystack, long_needle), nullptr);
+
+	list::free(haystack);
+	list::free(needle);
+	list::free(long_needle);
+}
